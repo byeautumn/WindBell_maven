@@ -276,6 +276,11 @@ public class DLUtils {
 
     public static void shuffuleTrainingData(File trainDataDir)
     {
+        shuffuleTrainingData(trainDataDir, null);
+    }
+
+    public static void shuffuleTrainingData(File trainDataDir, File trainLabelDir)
+    {
         if(null == trainDataDir)
         {
             log.error("The given training data directory is null.");
@@ -295,6 +300,12 @@ public class DLUtils {
             return;
         }
 
+        String[] labelFileNames = null;
+        if(null != trainLabelDir)
+        {
+            labelFileNames = trainLabelDir.list(new CSVFilenameFilter());
+        }
+
         Random random = new Random();
         int randomIdx = random.nextInt(dataFileNames.length);
         for(int idx = 0; idx < dataFileNames.length / 2; ++idx)
@@ -305,6 +316,12 @@ public class DLUtils {
                 continue;
 
             swapFilesContent(trainDataDir, fileName1, fileName2);
+            if(null != labelFileNames)
+            {
+                String labelFileName1 = labelFileNames[idx];
+                String labelFileName2 = labelFileNames[randomIdx];
+                swapFilesContent(trainLabelDir, labelFileName1, labelFileName2);
+            }
             randomIdx = random.nextInt(dataFileNames.length);
         }
 

@@ -263,7 +263,7 @@ public class BigPoolLSTMRunner {
                 net.fit(trainData);
                 
               //Evaluate on the test set:
-                Evaluation evaluation = net.evaluate(testData);
+                Evaluation evaluation = net.evaluate(trainData);
                 
                 log.info(String.format(str, i, evaluation.accuracy(), evaluation.f1()));
                 log.info(String.format(str2, i, evaluation.precision(), evaluation.recall()));
@@ -436,11 +436,11 @@ public class BigPoolLSTMRunner {
         
 //        DLUtils.generateMultiSymbolTrainingInputData(configReader);
 
-//        BigPoolLSTMRunner runner = new BigPoolLSTMRunner(configReader);
+        BigPoolLSTMRunner runner = new BigPoolLSTMRunner(configReader);
         
 //        runner.generateTrainingInputData();
 //        MultiLayerNetwork net = runner.buildNetworkModel();
-//        runner.trainAndValidate(null);
+        runner.trainAndValidate(null);
 //        runner.predict(net);
     }
 }
